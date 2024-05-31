@@ -2,6 +2,7 @@ import express from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import { Book } from "./models/bookModel.js";
+import e from "express";
 const app = express();
 
 app.use(express.json()); //Needed for express to use JSON body
@@ -90,6 +91,22 @@ app.put("/books/:id", async (request, response) => {
 });
 
 //Delete a book
+app.delete("/books/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const result = await Book.findByIdAndUpdate(id);
+
+    if (!result) {
+      return response.status(404).json({ message: "book not found" });
+    }
+
+    return response.status(200).send({ message: "book deleted successfully" });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
 
 mongoose
   .connect(mongoDBURL)
