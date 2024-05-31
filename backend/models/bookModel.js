@@ -22,4 +22,4 @@ const bookSchema = mongoose.Schema(
 );
 
 //Creating the model that uses the Schema.
-export const Book = mongoose.model("Cat", bookSchema);
+export const Book = mongoose.model("All Books", bookSchema);
